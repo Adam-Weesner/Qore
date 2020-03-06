@@ -9,7 +9,6 @@ Entity::Entity(EntityContainer& newEntityContainer):
     isActive = true;
 }
 
-
 Entity::Entity(EntityContainer& newEntityContainer, std::string newName):
     entityContainer(newEntityContainer)
 {
@@ -46,4 +45,17 @@ void Entity::Destroy()
 bool Entity::IsActive() const
 {
     return isActive;
+}
+
+
+template <typename T, typename... TArgs>
+T& AddComponent(TArgs&&... args)
+{
+    T* newComponent(new T(std::forward<TArgs>(args)...));
+
+    newComponent->owner = this;
+    components.emplace_back(newComponent);
+    newComponent->Initialize();
+    
+    return *newComponent;
 }

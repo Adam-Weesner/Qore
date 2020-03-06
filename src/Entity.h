@@ -19,6 +19,9 @@ class Entity
         void Destroy();
         bool IsActive() const;
 
+        template <typename T, typename... TArgs>
+        T& AddComponent(TArgs&&... args);
+
         std::string name;
 
     private:
