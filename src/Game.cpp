@@ -1,11 +1,8 @@
+// QORE Engine written by Adam Weesner @ 2020
 #include <iostream>
 #include "Constants.h"
 #include "Game.h"
 
-float projectilePosX = 0.0f;
-float projectilePosY = 0.0f;
-float projectileVelX = 0.1f;
-float projectileVelY = 0.1f;
 
 Game::Game()
 {
@@ -78,8 +75,20 @@ void Game::ProcessInput()
 
 void Game::Update()
 {
-    projectilePosX += projectileVelX;
-    projectilePosY += projectileVelY;
+    // Wait until 16.6ms has ellasped since last frame
+    while (!SDL_TICKS_PASSED(SDL_GetTicks(), ticksLastFrame + FRAME_TARGET_TIME));
+
+    // Difference in ticks from last frame, converted into seconds
+    deltaTime = (SDL_GetTicks() - ticksLastFrame) / 1000.0f;
+
+    // Clamp deltaTime to a max value. Prevents breakpoint overload
+    deltaTime = (deltaTime > DELTA_MAX) ? DELTA_MAX : deltaTime;
+
+    // Gets the number of miliseconds since SDL was initialized
+    ticksLastFrame = SDL_GetTicks();
+
+    projectilePos.x += projectileVel.x * deltaTime;
+    projectilePos.y += projectileVel.y * deltaTime;
 }
 
 
@@ -91,8 +100,8 @@ void Game::Render()
 
     SDL_Rect projectile
     {
-        (int) projectilePosX,
-        (int) projectilePosY,
+        (int) projectilePos.x,
+        (int) projectilePos.y,
         10,
         10
     };
