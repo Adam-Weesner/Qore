@@ -1,4 +1,4 @@
-// QORE Engine written by Adam Weesner @ 2020
+// Qore Engine written by Adam Weesner @ 2020
 #ifndef ENTITY_H
 #define ENTITY_H
 
@@ -12,16 +12,17 @@ class EntityContainer;
 class Entity
 {
     public:
-        std::string name;
-        Entity(EntityContainer& entities);
-        Entity(EntityContainer& manager, std::string name);
+        Entity(EntityContainer& newEntityContainer);
+        Entity(EntityContainer& newEntityContainer, std::string newName);
         void Update(float deltaTime);
         void Render();
         void Destroy();
-        bool isActive() const;
+        bool IsActive() const;
+
+        std::string name;
 
     private:
-        EntityContainer& entities;
+        EntityContainer& entityContainer;
         std::vector<Component*> components;
         bool isActive;
 };

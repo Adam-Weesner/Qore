@@ -1,8 +1,10 @@
-// QORE Engine written by Adam Weesner @ 2020
+// Qore Engine written by Adam Weesner @ 2020
 #include <iostream>
 #include "Constants.h"
 #include "Game.h"
 
+EntityContainer entities;
+SDL_Renderer* Game::renderer;
 
 Game::Game()
 {
@@ -87,8 +89,7 @@ void Game::Update()
     // Gets the number of miliseconds since SDL was initialized
     ticksLastFrame = SDL_GetTicks();
 
-    projectilePos.x += projectileVel.x * deltaTime;
-    projectilePos.y += projectileVel.y * deltaTime;
+    // TODO call manager.update to update all entities as function of deltatime
 }
 
 
@@ -98,17 +99,7 @@ void Game::Render()
     SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);
     SDL_RenderClear(renderer);
 
-    SDL_Rect projectile
-    {
-        (int) projectilePos.x,
-        (int) projectilePos.y,
-        10,
-        10
-    };
-
-    // Projectile 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, &projectile);
+    // TODO call manager.render to render all entities
 
     SDL_RenderPresent(renderer);
 }
@@ -119,6 +110,12 @@ void Game::Destroy()
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+}
+
+
+void LoadLevel(int levelNum)
+{
+
 }
 
 

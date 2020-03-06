@@ -1,6 +1,8 @@
-// QORE Engine written by Adam Weesner @ 2020
+// Qore Engine written by Adam Weesner @ 2020
 #ifndef COMPONENT_H
 #define COMPONENT_H
+
+class Entity;
 
 class Component
 {

@@ -1,4 +1,4 @@
-// QORE Engine written by Adam Weesner @ 2020
+// Qore Engine written by Adam Weesner @ 2020
 #include <iostream>
 #include "Constants.h"
 #include "Game.h"
