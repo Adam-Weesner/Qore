@@ -1,5 +1,4 @@
 // Qore Engine written by Adam Weesner @ 2020
-#include "Component.h"
 #include "Entity.h"
 
 
@@ -10,9 +9,9 @@ Entity::Entity(EntityContainer& newEntityContainer):
 }
 
 Entity::Entity(EntityContainer& newEntityContainer, std::string newName):
-    entityContainer(newEntityContainer)
+    entityContainer(newEntityContainer),
+    name(newName)
 {
-    name = newName;
     isActive = true;
 }
 
@@ -47,15 +46,14 @@ bool Entity::IsActive() const
     return isActive;
 }
 
-
-template <typename T, typename... TArgs>
-T& AddComponent(TArgs&&... args)
+std::string Entity::PrintComponents()
 {
-    T* newComponent(new T(std::forward<TArgs>(args)...));
+    std::string componentNames = "";
 
-    newComponent->owner = this;
-    components.emplace_back(newComponent);
-    newComponent->Initialize();
-    
-    return *newComponent;
+    for(Component* component : components)
+    {
+        componentNames += "\tComponent<" + component->name + ">\n";
+    }
+
+    return componentNames;
 }

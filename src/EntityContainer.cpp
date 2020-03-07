@@ -1,53 +1,67 @@
 // Qore Engine written by Adam Weesner @ 2020
 #include "EntityContainer.h"
 
-void EntityContainer::ClearData()
+void EntityContainer::ClearData() 
 {
-    for(auto& entity : entities)
+    for (auto& entity: entities) 
     {
         entity->Destroy();
     }
 }
 
 
-void EntityContainer::Update(float deltaTime)
+void EntityContainer::Update(float deltaTime) 
 {
-    for(auto& entity : entities)
+    for (auto& entity: entities) 
     {
         entity->Update(deltaTime);
     }
 }
 
 
-void EntityContainer::Render()
+void EntityContainer::Render() 
 {
-    for(auto& entity : entities)
+    for (auto& entity: entities) 
     {
         entity->Render();
     }
 }
 
 
-Entity& EntityContainer::AddEntity(std::string entityName)
+Entity& EntityContainer::AddEntity(std::string newEntityName) 
 {
-    Entity* newEntity = new Entity(*this, entityName);
-    entities.emplace_back(newEntity);
+    Entity *entity = new Entity(*this, newEntityName);
+    entities.emplace_back(entity);
+    return *entity;
 }
 
 
-std::vector<Entity*> EntityContainer::GetEntities() const
+std::vector<Entity*> EntityContainer::GetEntities() const 
 {
     return entities;
 }
 
 
-unsigned int EntityContainer::GetEntityCount() const
+unsigned int EntityContainer::GetEntityCount() 
 {
     return entities.size();
 }
 
 
-bool EntityContainer::ContainsEntities()
+bool EntityContainer::IsEmpty() 
 {
-    return entities.size() > 0;
+    return entities.size() == 0;
+}
+
+
+std::string EntityContainer::PrintEntities() 
+{
+    std::string entityNames = "";
+
+    for(Entity* entity : entities)
+    {
+        entityNames += "Entity Name: " + entity->name + "\n"
+                    + entity->PrintComponents() + "\n";
+    }
+    return entityNames;
 }

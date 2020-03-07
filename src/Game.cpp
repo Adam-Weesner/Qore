@@ -2,9 +2,12 @@
 #include <iostream>
 #include "Constants.h"
 #include "Game.h"
+#include "Components/TransformComponent.h"
+#include "../lib/glm/glm.hpp"
 
 EntityContainer entities;
 SDL_Renderer* Game::renderer;
+
 
 Game::Game()
 {
@@ -49,6 +52,8 @@ void Game::Initialize(const int winWidth, const int winHeight)
         return;
     }
 
+    LoadLevel(0);
+
     isRunning = true;
 }
 
@@ -89,7 +94,7 @@ void Game::Update()
     // Gets the number of miliseconds since SDL was initialized
     ticksLastFrame = SDL_GetTicks();
 
-    // TODO call manager.update to update all entities as function of deltatime
+    entities.Update(deltaTime);
 }
 
 
@@ -99,7 +104,10 @@ void Game::Render()
     SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);
     SDL_RenderClear(renderer);
 
-    // TODO call manager.render to render all entities
+    if (!entities.IsEmpty()) 
+    { 
+        entities.Render();
+    }
 
     SDL_RenderPresent(renderer);
 }
@@ -113,9 +121,15 @@ void Game::Destroy()
 }
 
 
-void LoadLevel(int levelNum)
+void Game::LoadLevel(int levelNum)
 {
+    Entity& newEntity(entities.AddEntity("projectile"));
+    newEntity.AddComponent<TransformComponent>(0, 0, 20, 20, 32, 32, 1);
 
+    Entity& newEntity2(entities.AddEntity("projectile"));
+    newEntity2.AddComponent<TransformComponent>(0, 0, 20, 0, 50, 32, 1);
+
+    std::cout << entities.PrintEntities();
 }
 
 

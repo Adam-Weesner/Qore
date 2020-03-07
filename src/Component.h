@@ -8,9 +8,11 @@ class Component
 {
     public:
         virtual ~Component() {}
+        virtual void Initialize() {};
         virtual void Update(float deltaTime) {}
         virtual void Render() {}
-
+        
         Entity* owner;
+        std::string name;
 };
 #endif

@@ -4,7 +4,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include "../lib/glm/glm.hpp"
 #include "Entity.h"
 #include "Component.h"
 #include "EntityContainer.h"
@@ -29,7 +28,6 @@ class Game
     private:
         bool isRunning;
         Uint32 ticksLastFrame;
-
         SDL_Window *window;
 };
 #endif

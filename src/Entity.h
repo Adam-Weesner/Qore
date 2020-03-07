@@ -4,10 +4,12 @@
 
 #include <vector>
 #include <string>
+#include "./EntityContainer.h"
+#include "./Component.h"
 
 // Forward declarations
-class Component;
 class EntityContainer;
+class Component;
 
 class Entity
 {
@@ -18,9 +20,18 @@ class Entity
         void Render();
         void Destroy();
         bool IsActive() const;
+        std::string PrintComponents();
 
         template <typename T, typename... TArgs>
-        T& AddComponent(TArgs&&... args);
+        T& AddComponent(TArgs&&... args) {
+            T* newComponent(new T(std::forward<TArgs>(args)...));
+
+            newComponent->owner = this;
+            components.emplace_back(newComponent);
+            newComponent->Initialize();
+            
+            return *newComponent;
+        }
 
         std::string name;
 
