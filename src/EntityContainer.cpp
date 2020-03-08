@@ -61,7 +61,7 @@ std::string EntityContainer::PrintEntities()
     for(Entity* entity : entities)
     {
         entityNames += "Entity Name: " + entity->name + "\n"
-                    + entity->PrintComponents() + "\n";
+                    + entity->PrintComponents();
     }
     return entityNames;
 }

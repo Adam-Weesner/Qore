@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 #include "./EntityContainer.h"
 #include "./Component.h"
 
@@ -28,9 +29,16 @@ class Entity
 
             newComponent->owner = this;
             components.emplace_back(newComponent);
+            componentTMap[&typeid(*newComponent)] = newComponent;
             newComponent->Initialize();
             
             return *newComponent;
+        }
+
+        template <typename T>
+        T* GetComponent() 
+        {
+            return static_cast<T*>(componentTMap[&typeid(T)]);
         }
 
         std::string name;
@@ -39,6 +47,7 @@ class Entity
         EntityContainer& entityContainer;
         std::vector<Component*> components;
         bool isActive;
+        std::map<const std::type_info*, Component*> componentTMap;
 };
 
 #endif
