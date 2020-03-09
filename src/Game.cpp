@@ -138,15 +138,15 @@ void Game::LoadLevel(int levelNum)
     map->LoadMap("assets/tilemaps/jungle.map", 25, 20);
 
     // Start including entities and also components to them
-    Entity& chopper(entities.AddEntity("chopper"));
+    Entity& chopper(entities.AddEntity("chopper", PLAYER_LAYER));
     chopper.AddComponent<TransformComponent>(240, 160, 0, 0, 32, 32, 1);
     chopper.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
     chopper.AddComponent<KeyboardControlComponent>("up", "right", "down", "left", "space");    
     
-    Entity& tank(entities.AddEntity("tank"));
+    Entity& tank(entities.AddEntity("tank", ENEMY_LAYER));
     tank.AddComponent<SpriteComponent>("tank-image");
 
-    Entity& radar(entities.AddEntity("radar"));
+    Entity& radar(entities.AddEntity("radar", UI_LAYER));
     radar.AddComponent<TransformComponent>(720, 15, 0, 0, 64, 64, 1);
     radar.AddComponent<SpriteComponent>("radar-image", 8, 150, false, true);
 

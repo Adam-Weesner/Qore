@@ -8,9 +8,10 @@ Entity::Entity(EntityContainer& entityContainer):
     isActive = true;
 }
 
-Entity::Entity(EntityContainer& entityContainer, std::string name):
+Entity::Entity(EntityContainer& entityContainer, std::string name, Layers layer):
     entityContainer(entityContainer),
-    name(name)
+    name(name),
+    layer(layer)
 {
     isActive = true;
 }

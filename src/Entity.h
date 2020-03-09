@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include "Constants.h"
 #include "./EntityContainer.h"
 #include "./Component.h"
 
@@ -16,7 +17,7 @@ class Entity
 {
     public:
         Entity(EntityContainer& entityContainer);
-        Entity(EntityContainer& entityContainer, std::string name);
+        Entity(EntityContainer& entityContainer, std::string name, Layers layer);
         void Update(float deltaTime);
         void Render();
         void Destroy();
@@ -53,6 +54,7 @@ class Entity
         }
 
         std::string name;
+        Layers layer;
 
     private:
         EntityContainer& entityContainer;

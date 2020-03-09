@@ -21,16 +21,19 @@ void EntityContainer::Update(float deltaTime)
 
 void EntityContainer::Render() 
 {
-    for (auto& entity: entities) 
+    for (int layerNum = 0; layerNum < NUM_LAYERS; layerNum++)
     {
-        entity->Render();
+        for (auto& entity : GetEntitiesByLayer(static_cast<Layers>(layerNum)))
+        {
+            entity->Render();
+        }
     }
 }
 
 
-Entity& EntityContainer::AddEntity(std::string newEntityName) 
+Entity& EntityContainer::AddEntity(std::string newEntityName, Layers layer) 
 {
-    Entity *entity = new Entity(*this, newEntityName);
+    Entity *entity = new Entity(*this, newEntityName, layer);
     entities.emplace_back(entity);
     return *entity;
 }
@@ -64,4 +67,20 @@ std::string EntityContainer::PrintEntities() const
                     + entity->PrintComponents();
     }
     return entityNames;
+}
+
+
+std::vector<Entity*> EntityContainer::GetEntitiesByLayer(Layers layer) const
+{
+    std::vector<Entity*> selectedEntities;
+
+    for (auto& entity : entities)
+    {
+        if (entity->layer == layer)
+        {
+            selectedEntities.emplace_back(entity);
+        }
+    }
+
+    return selectedEntities;
 }

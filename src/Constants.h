@@ -11,4 +11,15 @@ const unsigned int FRAME_TARGET_TIME = 1000 / FPS;
 
 const float DELTA_MAX = 0.05f;
 
+enum Layers {
+    TILEMAP_LAYER,
+    VEGETATION_LAYER,
+    ENEMY_LAYER,
+    PLAYER_LAYER,
+    PROJECTILE_LAYER,
+    UI_LAYER
+};
+
+const unsigned int NUM_LAYERS = 6;
+
 #endif
