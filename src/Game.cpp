@@ -1,9 +1,10 @@
 // Qore Engine written by Adam Weesner @ 2020
 #include <iostream>
+#include "../lib/glm/glm.hpp"
 #include "Constants.h"
 #include "Game.h"
-#include "../lib/glm/glm.hpp"
 #include "AssetHandler.h"
+#include "Map.h"
 #include "Components/TransformComponent.h"
 #include "Components/SpriteComponent.h"
 #include "Components/KeyboardControlComponent.h"
@@ -12,7 +13,7 @@ EntityContainer entities;
 AssetHandler* Game::assetHandler = new AssetHandler(&entities);
 SDL_Renderer* Game::renderer;
 SDL_Event Game::event;
-
+Map* map;
 
 Game::Game()
 {
@@ -131,6 +132,10 @@ void Game::LoadLevel(int levelNum)
     assetHandler->AddTexture("tank-image", "assets/images/tank-big-right.png");
     assetHandler->AddTexture("chopper-image", "assets/images/chopper-spritesheet.png");
     assetHandler->AddTexture("radar-image", "assets/images/radar.png");
+    assetHandler->AddTexture("jungle-tile", "assets/tilemaps/jungle.png");
+
+    map = new Map("jungle-tile", 3, 32);
+    map->LoadMap("assets/tilemaps/jungle.map", 25, 20);
 
     // Start including entities and also components to them
     Entity& chopper(entities.AddEntity("chopper"));
