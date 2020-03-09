@@ -10,7 +10,7 @@
 class AssetHandler
 {
     public:
-        AssetHandler(EntityContainer* newEntities);
+        AssetHandler(EntityContainer* entities);
         ~AssetHandler();
         void ClearData();
         void AddTexture(std::string textureID, const char* filePath);

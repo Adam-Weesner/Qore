@@ -15,8 +15,8 @@ class Component;
 class Entity
 {
     public:
-        Entity(EntityContainer& newEntityContainer);
-        Entity(EntityContainer& newEntityContainer, std::string newName);
+        Entity(EntityContainer& entityContainer);
+        Entity(EntityContainer& entityContainer, std::string name);
         void Update(float deltaTime);
         void Render();
         void Destroy();

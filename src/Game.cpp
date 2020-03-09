@@ -127,16 +127,21 @@ void Game::Destroy()
 void Game::LoadLevel(int levelNum)
 {
     // Start including new assets to the assetmanager list
-    std::string textureFilePath = "./assets/images/tank-big-right.png";
-    assetHandler->AddTexture("tank-image", textureFilePath.c_str());
+    assetHandler->AddTexture("tank-image", "assets/images/tank-big-right.png");
+    assetHandler->AddTexture("chopper-image", "assets/images/chopper-spritesheet.png");
+    assetHandler->AddTexture("radar-image", "assets/images/radar.png");
 
     // Start including entities and also components to them
     Entity& tank(entities.AddEntity("tank"));
-    //tank.AddComponent<TransformComponent>(0, 0, 20, 20, 32, 32, 1);
     tank.AddComponent<SpriteComponent>("tank-image");
 
-    Entity& newEntity2(entities.AddEntity("projectile"));
-    newEntity2.AddComponent<TransformComponent>(0, 0, 20, 0, 50, 32, 1);
+    Entity& chopper(entities.AddEntity("chopper"));
+    chopper.AddComponent<TransformComponent>(240, 160, 0, 0, 32, 32, 1);
+    chopper.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
+
+    Entity& radar(entities.AddEntity("radar"));
+    radar.AddComponent<TransformComponent>(720, 15, 0, 0, 64, 64, 1);
+    radar.AddComponent<SpriteComponent>("radar-image", 8, 150, false, true);
 
     std::cout << entities.PrintEntities();
 }

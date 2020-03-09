@@ -2,15 +2,15 @@
 #include "Entity.h"
 #include <string>
 
-Entity::Entity(EntityContainer& newEntityContainer):
-    entityContainer(newEntityContainer)
+Entity::Entity(EntityContainer& entityContainer):
+    entityContainer(entityContainer)
 {
     isActive = true;
 }
 
-Entity::Entity(EntityContainer& newEntityContainer, std::string newName):
-    entityContainer(newEntityContainer),
-    name(newName)
+Entity::Entity(EntityContainer& entityContainer, std::string name):
+    entityContainer(entityContainer),
+    name(name)
 {
     isActive = true;
 }

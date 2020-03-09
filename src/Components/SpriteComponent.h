@@ -5,11 +5,51 @@
 #include <SDL2/SDL.h>
 #include "../TextureHandler.h"
 #include "../AssetHandler.h"
+#include "../Animation.h"
 
 class SpriteComponent: public Component {
     public:
         SpriteComponent(const char* filePath)
         {
+            this->isAnimated = false;
+            this->isFixed = false;
+            this->animationIndex = 0;
+            SetTexture(filePath);
+        }
+
+        SpriteComponent(const char* filePath, int numFrames, int animationSpeed, bool hasDirections, bool isFixed)
+        {
+            this->isAnimated = true;
+            this->numFrames = numFrames;
+            this->isFixed = isFixed;
+            this->animationSpeed = animationSpeed;
+            this->animationIndex = 0;
+
+            if (hasDirections)
+            {
+                Animation downAnim = Animation(0, numFrames, animationSpeed);
+                Animation rightAnim = Animation(1, numFrames, animationSpeed);
+                Animation leftAnim = Animation(2, numFrames, animationSpeed);
+                Animation upAnim = Animation(3, numFrames, animationSpeed);
+
+                animations.emplace("DownAnimation", downAnim);
+                animations.emplace("RightAnimation", rightAnim);
+                animations.emplace("LeftAnimation", leftAnim);
+                animations.emplace("UpAnimation", upAnim);
+
+                this->animationIndex = 0;
+                this->currentAnimationName = "DownAnimation";
+            }
+            else
+            {
+                Animation singleAnimation = Animation(0, numFrames, animationSpeed);
+                animations.emplace("SingleAnimation", singleAnimation);
+                animationIndex = 0;
+                currentAnimationName = "SingleAnimation";
+            }
+
+            Play(this->currentAnimationName);
+            
             SetTexture(filePath);
         }
 
@@ -31,8 +71,14 @@ class SpriteComponent: public Component {
 
         void Update(float deltaTime) override
         {
-            destRect.x = (int) transform->position.x;
-            destRect.y = (int) transform->position.y;
+            if (isAnimated)
+            {
+                sourceRect.x = sourceRect.w * static_cast<int>((SDL_GetTicks() / animationSpeed) % numFrames);
+            }
+            sourceRect.y = animationIndex * transform->height;
+
+            destRect.x = static_cast<int>(transform->position.x);
+            destRect.y = static_cast<int>(transform->position.y);
             destRect.w = transform->width * transform->scale;
             destRect.h = transform->height * transform->scale;
         }
@@ -47,6 +93,15 @@ class SpriteComponent: public Component {
             texture = Game::assetHandler->GetTexture(assetTextureID);
         }
 
+        void Play(std::string animationName)
+        {
+            auto& anim = animations[animationName];
+            numFrames = anim.numFrames;
+            animationIndex = anim.index;
+            animationSpeed = anim.animationSpeed;
+            currentAnimationName = animationName;
+        }
+
         SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
 
@@ -55,6 +110,13 @@ class SpriteComponent: public Component {
         SDL_Texture* texture;
         SDL_Rect sourceRect;
         SDL_Rect destRect;
+        bool isAnimated;
+        bool isFixed;
+        int numFrames;
+        int animationSpeed;
+        unsigned int animationIndex;
+        std::string currentAnimationName;
+        std::map<std::string, Animation> animations;
 };
 
 #endif
