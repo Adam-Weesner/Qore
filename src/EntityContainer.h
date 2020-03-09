@@ -16,7 +16,7 @@ class EntityContainer
         std::vector<Entity*> GetEntities() const;
         unsigned int GetEntityCount();
         bool IsEmpty();
-        std::string PrintEntities();
+        std::string PrintEntities() const;
 
     private:
         std::vector<Entity*> entities;    

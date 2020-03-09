@@ -41,6 +41,17 @@ class Entity
             return static_cast<T*>(componentTMap[&typeid(T)]);
         }
 
+        template <typename T>
+        bool HasComponent()
+        {
+            if (componentTMap.count(&typeid(T)))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         std::string name;
 
     private:

@@ -21,7 +21,6 @@ class TransformComponent: public Component
 
         void Initialize() override
         {
-            name = "TransformComponent";
         }
 
 
@@ -32,18 +31,7 @@ class TransformComponent: public Component
         }
 
 
-        void Render() override
-        {
-            SDL_Rect transformRect = {
-                (int) position.x,
-                (int) position.y,
-                width,
-                height
-            };
-            
-            SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
-            SDL_RenderFillRect(Game::renderer, &transformRect);
-        }
+        void Render() override { }
 
         glm::vec2 position;
         glm::vec2 velocity;

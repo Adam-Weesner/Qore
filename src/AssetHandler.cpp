@@ -1,4 +1,5 @@
 #include "AssetHandler.h"
+#include "Components/TransformComponent.h"
 
 AssetHandler::AssetHandler(EntityContainer* newEntities)
 {

@@ -1,6 +1,6 @@
 // Qore Engine written by Adam Weesner @ 2020
 #include "Entity.h"
-
+#include <string>
 
 Entity::Entity(EntityContainer& newEntityContainer):
     entityContainer(newEntityContainer)
@@ -50,9 +50,10 @@ std::string Entity::PrintComponents()
 {
     std::string componentNames = "";
 
-    for(Component* component : components)
+    for(auto component : componentTMap)
     {
-        componentNames += "\tComponent<" + component->name + ">\n";
+        std::string compName(component.first->name());
+        componentNames += "\tComponent<" + compName + ">\n";
     }
 
     return componentNames;

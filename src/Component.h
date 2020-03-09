@@ -13,6 +13,5 @@ class Component
         virtual void Render() {}
         
         Entity* owner;
-        std::string name;
 };
 #endif

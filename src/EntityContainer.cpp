@@ -54,7 +54,7 @@ bool EntityContainer::IsEmpty()
 }
 
 
-std::string EntityContainer::PrintEntities() 
+std::string EntityContainer::PrintEntities() const
 {
     std::string entityNames = "";
 

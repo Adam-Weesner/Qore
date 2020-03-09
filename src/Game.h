@@ -8,6 +8,8 @@
 #include "Component.h"
 #include "EntityContainer.h"
 
+class AssetHandler;
+
 class Game
 {
     public:
@@ -22,7 +24,8 @@ class Game
         void LoadLevel(int levelNum);
         bool IsRunning() const;
 
-        static SDL_Renderer *renderer;
+        static SDL_Renderer* renderer;
+        static AssetHandler* assetHandler;
         float deltaTime;
         
     private:
