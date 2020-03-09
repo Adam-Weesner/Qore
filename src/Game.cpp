@@ -6,10 +6,12 @@
 #include "AssetHandler.h"
 #include "Components/TransformComponent.h"
 #include "Components/SpriteComponent.h"
+#include "Components/KeyboardControlComponent.h"
 
 EntityContainer entities;
 AssetHandler* Game::assetHandler = new AssetHandler(&entities);
 SDL_Renderer* Game::renderer;
+SDL_Event Game::event;
 
 
 Game::Game()
@@ -63,7 +65,6 @@ void Game::Initialize(const int winWidth, const int winHeight)
 
 void Game::ProcessInput()
 {
-    SDL_Event event;
     SDL_PollEvent(&event);
 
     switch (event.type)
@@ -132,12 +133,13 @@ void Game::LoadLevel(int levelNum)
     assetHandler->AddTexture("radar-image", "assets/images/radar.png");
 
     // Start including entities and also components to them
-    Entity& tank(entities.AddEntity("tank"));
-    tank.AddComponent<SpriteComponent>("tank-image");
-
     Entity& chopper(entities.AddEntity("chopper"));
     chopper.AddComponent<TransformComponent>(240, 160, 0, 0, 32, 32, 1);
     chopper.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
+    chopper.AddComponent<KeyboardControlComponent>("up", "right", "down", "left", "space");    
+    
+    Entity& tank(entities.AddEntity("tank"));
+    tank.AddComponent<SpriteComponent>("tank-image");
 
     Entity& radar(entities.AddEntity("radar"));
     radar.AddComponent<TransformComponent>(720, 15, 0, 0, 64, 64, 1);

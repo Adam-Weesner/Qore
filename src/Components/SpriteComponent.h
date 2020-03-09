@@ -17,6 +17,7 @@ class SpriteComponent: public Component {
             SetTexture(filePath);
         }
 
+
         SpriteComponent(const char* filePath, int numFrames, int animationSpeed, bool hasDirections, bool isFixed)
         {
             this->isAnimated = true;
@@ -53,6 +54,7 @@ class SpriteComponent: public Component {
             SetTexture(filePath);
         }
 
+
         void Initialize() override
         {
             // Create transform component if none exists
@@ -69,6 +71,7 @@ class SpriteComponent: public Component {
             sourceRect.h = transform->height;
         }
 
+
         void Update(float deltaTime) override
         {
             if (isAnimated)
@@ -83,15 +86,18 @@ class SpriteComponent: public Component {
             destRect.h = transform->height * transform->scale;
         }
 
+
         void Render() override
         {
             TextureHandler::Draw(texture, sourceRect, destRect, spriteFlip);
         }
 
+
         void SetTexture(std::string assetTextureID)
         {
             texture = Game::assetHandler->GetTexture(assetTextureID);
         }
+
 
         void Play(std::string animationName)
         {

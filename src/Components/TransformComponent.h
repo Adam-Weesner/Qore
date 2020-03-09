@@ -1,9 +1,12 @@
+// Qore Engine written by Adam Weesner @ 2020
 #ifndef TRANSFORMCOMPONENT_H
 #define TRANSFORMCOMPONENT_H
 
+#include <SDL2/SDL.h>
+#include <bits/stdc++.h>
+#include "../Constants.h"
 #include "../EntityContainer.h"
 #include "../../lib/glm/glm.hpp"
-#include <SDL2/SDL.h>
 #include "../Game.h"
 
 class TransformComponent: public Component
@@ -19,19 +22,13 @@ class TransformComponent: public Component
         }
 
 
-        void Initialize() override
-        {
-        }
-
-
         void Update(float deltaTime) override
         {
-            position.x += velocity.x * deltaTime;
-            position.y += velocity.y * deltaTime;
+            auto newPosX = position.x + velocity.x * deltaTime;
+            auto newPosY = position.y + velocity.y * deltaTime;
+            position.x = glm::clamp(newPosX, 0.0f, (float)WINDOW_WIDTH);
+            position.y = glm::clamp(newPosY, 0.0f, (float)WINDOW_HEIGHT);
         }
-
-
-        void Render() override { }
 
         glm::vec2 position;
         glm::vec2 velocity;

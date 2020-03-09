@@ -26,6 +26,7 @@ class Game
 
         static SDL_Renderer* renderer;
         static AssetHandler* assetHandler;
+        static SDL_Event event;
         float deltaTime;
         
     private:
