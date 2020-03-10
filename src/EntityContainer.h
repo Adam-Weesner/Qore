@@ -12,13 +12,12 @@ class EntityContainer
         void ClearData();
         void Update(float deltaTime);
         void Render();
-        Entity& AddEntity(std::string newEntityName, Layers layer);
+        void AddEntity(Entity* entity);
         std::vector<Entity*> GetEntities() const;
         unsigned int GetEntityCount();
         bool IsEmpty();
         std::string PrintEntities() const;
         std::vector<Entity*> GetEntitiesByLayer(Layers layer) const;
-        std::string CheckEntityCollisions(Entity& myEntity) const;
 
     private:
         std::vector<Entity*> entities;    

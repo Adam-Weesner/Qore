@@ -2,17 +2,21 @@
 #include "Entity.h"
 #include <string>
 
-Entity::Entity(EntityContainer& entityContainer):
-    entityContainer(entityContainer)
+extern EntityContainer entities;
+
+Entity::Entity():
+    entityContainer(entities)
 {
+    entityContainer.AddEntity(this);
     isActive = true;
 }
 
-Entity::Entity(EntityContainer& entityContainer, std::string name, Layers layer):
-    entityContainer(entityContainer),
+Entity::Entity(std::string name, Layers layer):
+    entityContainer(entities),
     name(name),
     layer(layer)
 {
+    entityContainer.AddEntity(this);
     isActive = true;
 }
 

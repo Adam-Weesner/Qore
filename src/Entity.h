@@ -6,8 +6,8 @@
 #include <string>
 #include <map>
 #include "Constants.h"
-#include "./EntityContainer.h"
-#include "./Component.h"
+#include "EntityContainer.h"
+#include "Component.h"
 
 // Forward declarations
 class EntityContainer;
@@ -16,8 +16,8 @@ class Component;
 class Entity
 {
     public:
-        Entity(EntityContainer& entityContainer);
-        Entity(EntityContainer& entityContainer, std::string name, Layers layer);
+        Entity();
+        Entity(std::string name, Layers layer);
         void Update(float deltaTime);
         void Render();
         void Destroy();
@@ -36,11 +36,13 @@ class Entity
             return *newComponent;
         }
 
+
         template <typename T>
         T* GetComponent() 
         {
             return static_cast<T*>(componentTMap[&typeid(T)]);
         }
+
 
         template <typename T>
         bool HasComponent()
@@ -48,10 +50,13 @@ class Entity
             return componentTMap.count(&typeid(T));
         }
 
+
+        virtual void OnCollision(const Entity* other) { }
+
         std::string name;
         Layers layer;
 
-    private:
+    protected:
         EntityContainer& entityContainer;
         std::vector<Component*> components;
         bool isActive;

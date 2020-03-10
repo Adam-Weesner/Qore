@@ -14,7 +14,7 @@ void EntityContainer::ClearData()
 
 void EntityContainer::Update(float deltaTime) 
 {
-    for (auto& entity: entities) 
+    for (auto& entity : entities) 
     {
         entity->Update(deltaTime);
     }
@@ -33,11 +33,9 @@ void EntityContainer::Render()
 }
 
 
-Entity& EntityContainer::AddEntity(std::string newEntityName, Layers layer) 
+void EntityContainer::AddEntity(Entity* entity) 
 {
-    Entity *entity = new Entity(*this, newEntityName, layer);
     entities.emplace_back(entity);
-    return *entity;
 }
 
 
@@ -85,28 +83,4 @@ std::vector<Entity*> EntityContainer::GetEntitiesByLayer(Layers layer) const
     }
 
     return selectedEntities;
-}
-
-
-std::string EntityContainer::CheckEntityCollisions(Entity& myEntity) const
-{
-    ColliderComponent* myCollider = myEntity.GetComponent<ColliderComponent>();
-    
-    for (auto& entity : entities)
-    {
-        if (entity->name != (myEntity.name) &&
-            entity->name != "Tile")
-        {
-            if (entity->HasComponent<ColliderComponent>())
-            {
-                ColliderComponent* otherCollider = entity->GetComponent<ColliderComponent>();
-                if (Collision::IsColliding(myCollider->collider, otherCollider->collider))
-                {
-                    return otherCollider->colliderTag;
-                }
-            }
-        }
-    }
-
-    return "";
 }
