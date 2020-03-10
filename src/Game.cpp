@@ -9,11 +9,14 @@
 #include "Components/SpriteComponent.h"
 #include "Components/KeyboardControlComponent.h"
 
+// Global statics
 EntityContainer entities;
 AssetHandler* Game::assetHandler = new AssetHandler(&entities);
 SDL_Renderer* Game::renderer;
 SDL_Event Game::event;
+SDL_Rect Game::camera = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
 Map* map;
+
 
 Game::Game()
 {
@@ -100,6 +103,8 @@ void Game::Update()
     ticksLastFrame = SDL_GetTicks();
 
     entities.Update(deltaTime);
+
+    HandleCameraMovement();
 }
 
 
@@ -126,6 +131,8 @@ void Game::Destroy()
 }
 
 
+Entity& player(entities.AddEntity("chopper", PLAYER_LAYER));
+
 void Game::LoadLevel(int levelNum)
 {
     // Start including new assets to the assetmanager list
@@ -138,10 +145,9 @@ void Game::LoadLevel(int levelNum)
     map->LoadMap("assets/tilemaps/jungle.map", 25, 20);
 
     // Start including entities and also components to them
-    Entity& chopper(entities.AddEntity("chopper", PLAYER_LAYER));
-    chopper.AddComponent<TransformComponent>(240, 160, 0, 0, 32, 32, 1);
-    chopper.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
-    chopper.AddComponent<KeyboardControlComponent>("up", "right", "down", "left", "space");    
+    player.AddComponent<TransformComponent>(240, 160, 0, 0, 32, 32, 1);
+    player.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
+    player.AddComponent<KeyboardControlComponent>("up", "right", "down", "left", "space");    
     
     Entity& tank(entities.AddEntity("tank", ENEMY_LAYER));
     tank.AddComponent<SpriteComponent>("tank-image");
@@ -157,4 +163,19 @@ void Game::LoadLevel(int levelNum)
 bool Game::IsRunning() const
 {
     return isRunning;
+}
+
+
+void Game::HandleCameraMovement()
+{
+    TransformComponent* playerTransform = player.GetComponent<TransformComponent>();
+
+    camera.x = playerTransform->position.x - (WINDOW_WIDTH / 2);
+    camera.y = playerTransform->position.y - (WINDOW_HEIGHT / 2);
+
+    // Clamp camera values to screen height/width
+    camera.x = camera.x < 0 ? 0 : camera.x;
+    camera.y = camera.y < 0 ? 0 : camera.y;
+    camera.x = camera.x > camera.w ? camera.w : camera.x;
+    camera.y = camera.y > camera.h ? camera.h : camera.y;
 }

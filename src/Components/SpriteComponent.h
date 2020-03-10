@@ -78,10 +78,15 @@ class SpriteComponent: public Component {
             {
                 sourceRect.x = sourceRect.w * static_cast<int>((SDL_GetTicks() / animationSpeed) % numFrames);
             }
+
             sourceRect.y = animationIndex * transform->height;
 
-            destRect.x = static_cast<int>(transform->position.x);
-            destRect.y = static_cast<int>(transform->position.y);
+            // If fixed, then disable camera influence
+            auto cameraX = isFixed ? 0 : Game::camera.x;
+            auto cameraY = isFixed ? 0 : Game::camera.y;
+
+            destRect.x = static_cast<int>(transform->position.x) - cameraX;
+            destRect.y = static_cast<int>(transform->position.y) - cameraY;
             destRect.w = transform->width * transform->scale;
             destRect.h = transform->height * transform->scale;
         }

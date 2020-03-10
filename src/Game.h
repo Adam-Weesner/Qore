@@ -23,10 +23,12 @@ class Game
 
         void LoadLevel(int levelNum);
         bool IsRunning() const;
+        void HandleCameraMovement();
 
         static SDL_Renderer* renderer;
-        static AssetHandler* assetHandler;
         static SDL_Event event;
+        static SDL_Rect camera;
+        static AssetHandler* assetHandler;
         float deltaTime;
         
     private:
