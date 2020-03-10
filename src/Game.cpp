@@ -8,6 +8,7 @@
 #include "Components/TransformComponent.h"
 #include "Components/SpriteComponent.h"
 #include "Components/KeyboardControlComponent.h"
+#include "Components/ColliderComponent.h"
 
 // Global statics
 EntityContainer entities;
@@ -105,6 +106,7 @@ void Game::Update()
     entities.Update(deltaTime);
 
     HandleCameraMovement();
+    CheckCollisions();
 }
 
 
@@ -148,15 +150,18 @@ void Game::LoadLevel(int levelNum)
     player.AddComponent<TransformComponent>(240, 160, 0, 0, 32, 32, 1);
     player.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
     player.AddComponent<KeyboardControlComponent>("up", "right", "down", "left", "space");    
+    player.AddComponent<ColliderComponent>("player", 240, 106, 32, 32);
     
     Entity& tank(entities.AddEntity("tank", ENEMY_LAYER));
-    tank.AddComponent<SpriteComponent>("tank-image");
+    tank.AddComponent<SpriteComponent>("tank-image"); 
+    tank.AddComponent<ColliderComponent>("enemy", 240, 106, 32, 32);
+    
 
     Entity& radar(entities.AddEntity("radar", UI_LAYER));
     radar.AddComponent<TransformComponent>(720, 15, 0, 0, 64, 64, 1);
     radar.AddComponent<SpriteComponent>("radar-image", 8, 150, false, true);
 
-    std::cout << entities.PrintEntities();
+    //std::cout << entities.PrintEntities();
 }
 
 
@@ -178,4 +183,15 @@ void Game::HandleCameraMovement()
     camera.y = camera.y < 0 ? 0 : camera.y;
     camera.x = camera.x > camera.w ? camera.w : camera.x;
     camera.y = camera.y > camera.h ? camera.h : camera.y;
+}
+
+
+void Game::CheckCollisions()
+{
+    std::string collisionTagType = entities.CheckEntityCollisions(player);
+
+    if (collisionTagType.compare("enemy") == 0)
+    {
+        isRunning = false;
+    }
 }

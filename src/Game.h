@@ -24,6 +24,7 @@ class Game
         void LoadLevel(int levelNum);
         bool IsRunning() const;
         void HandleCameraMovement();
+        void CheckCollisions();
 
         static SDL_Renderer* renderer;
         static SDL_Event event;

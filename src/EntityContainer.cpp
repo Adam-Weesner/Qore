@@ -1,5 +1,7 @@
 // Qore Engine written by Adam Weesner @ 2020
 #include "EntityContainer.h"
+#include "Collision.h"
+#include "Components/ColliderComponent.h"
 
 void EntityContainer::ClearData() 
 {
@@ -83,4 +85,28 @@ std::vector<Entity*> EntityContainer::GetEntitiesByLayer(Layers layer) const
     }
 
     return selectedEntities;
+}
+
+
+std::string EntityContainer::CheckEntityCollisions(Entity& myEntity) const
+{
+    ColliderComponent* myCollider = myEntity.GetComponent<ColliderComponent>();
+    
+    for (auto& entity : entities)
+    {
+        if (entity->name != (myEntity.name) &&
+            entity->name != "Tile")
+        {
+            if (entity->HasComponent<ColliderComponent>())
+            {
+                ColliderComponent* otherCollider = entity->GetComponent<ColliderComponent>();
+                if (Collision::IsColliding(myCollider->collider, otherCollider->collider))
+                {
+                    return otherCollider->colliderTag;
+                }
+            }
+        }
+    }
+
+    return "";
 }

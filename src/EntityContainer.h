@@ -17,7 +17,8 @@ class EntityContainer
         unsigned int GetEntityCount();
         bool IsEmpty();
         std::string PrintEntities() const;
-        std::vector<Entity*>  GetEntitiesByLayer(Layers layer) const;
+        std::vector<Entity*> GetEntitiesByLayer(Layers layer) const;
+        std::string CheckEntityCollisions(Entity& myEntity) const;
 
     private:
         std::vector<Entity*> entities;    

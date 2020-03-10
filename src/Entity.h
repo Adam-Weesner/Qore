@@ -45,12 +45,7 @@ class Entity
         template <typename T>
         bool HasComponent()
         {
-            if (componentTMap.count(&typeid(T)))
-            {
-                return true;
-            }
-
-            return false;
+            return componentTMap.count(&typeid(T));
         }
 
         std::string name;
