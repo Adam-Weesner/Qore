@@ -42,7 +42,14 @@ void Entity::Render()
 
 void Entity::Destroy()
 {
-    isActive = false;
+    for (int i = 0; i < entities.GetEntities().size(); i++)
+    {
+        if (entities.GetEntities()[i] == this)
+        {
+            entities.GetEntities().erase(entities.GetEntities().begin() + i);
+            break;
+        }
+    }
 }
 
 

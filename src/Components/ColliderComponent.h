@@ -14,10 +14,8 @@ extern EntityContainer entities;
 class ColliderComponent: public Component
 {
     public:
-        ColliderComponent(std::string colliderTag, int x, int y, int width, int height)
+        ColliderComponent()
         {
-            this->colliderTag = colliderTag;
-            this->collider = {x, y, width, height};
             this->texture = Game::assetHandler->GetTexture("collision-image");
             this->isRendering = false;
         }
@@ -35,6 +33,8 @@ class ColliderComponent: public Component
 
         void Update(float deltaTime) override
         {
+            if (!owner->HasComponent<TransformComponent>()) { return; }
+
             collider.x = static_cast<int>(transform->position.x);
             collider.y = static_cast<int>(transform->position.y);
             collider.w = transform->width * transform->scale;
@@ -85,7 +85,6 @@ class ColliderComponent: public Component
         }
 
 
-        std::string colliderTag;
         SDL_Rect collider;
         SDL_Rect sourceRect;
         SDL_Rect destRect;

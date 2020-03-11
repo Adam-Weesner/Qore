@@ -15,7 +15,8 @@ class Player: public Entity
 
         void OnCollision(const Entity* other) override
         { 
-            if (other->layer == ENEMY_LAYER)
+            if (other->layer == ENEMY_LAYER ||
+                other->layer == PROJECTILE_LAYER)
             {
                 std::cout << "Game over! " << other->name << "\n";
             }
