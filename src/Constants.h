@@ -1,7 +1,8 @@
 // Qore Engine written by Adam Weesner @ 2020
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
-#include <iostream>
+
+#include <SDL2/SDL.h>
 
 const unsigned int WINDOW_WIDTH = 1920;
 const unsigned int WINDOW_HEIGHT = 1080;
@@ -22,5 +23,10 @@ enum Layers
 };
 
 const unsigned int NUM_LAYERS = 6;
+
+const SDL_Color WHITE_COLOR = {255, 255, 255, 255};
+const SDL_Color RED_COLOR = {255, 0, 0, 255};
+const SDL_Color GREEN_COLOR = {0, 255, 0, 255};
+const SDL_Color BLUE_COLOR = {0, 0, 255, 255};
 
 #endif

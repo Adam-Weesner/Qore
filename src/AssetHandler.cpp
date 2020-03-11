@@ -16,6 +16,7 @@ AssetHandler::~AssetHandler()
 void AssetHandler::ClearData()
 {
     textures.clear();
+    fonts.clear();
 }
 
 
@@ -30,3 +31,14 @@ SDL_Texture* AssetHandler::GetTexture(std::string textureID)
     return textures[textureID];
 }
 
+
+void AssetHandler::AddFont(std::string fontID, const char* filePath, int fontSize)
+{
+    fonts.emplace(fontID, FontHandler::LoadFont(filePath, fontSize));
+}
+
+
+TTF_Font* AssetHandler::GetFont(std::string fontID)
+{
+    return fonts[fontID];
+}

@@ -10,6 +10,7 @@
 #include "Components/SpriteComponent.h"
 #include "Components/KeyboardControlComponent.h"
 #include "Components/ColliderComponent.h"
+#include "Components/LabelComponent.h"
 
 // Global statics
 EntityContainer entities;
@@ -18,6 +19,7 @@ SDL_Renderer* Game::renderer;
 SDL_Event Game::event;
 SDL_Rect Game::camera = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
 Map* map;
+Player* player;
 
 
 Game::Game()
@@ -37,6 +39,12 @@ void Game::Initialize(const int winWidth, const int winHeight)
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
         std::cerr << "ERROR initializing SDL." << std::endl;
+        return;
+    }
+
+    if (TTF_Init() != 0)
+    {
+        std::cerr << "ERROR intializing TTF" << std::endl;
         return;
     }
     
@@ -134,8 +142,6 @@ void Game::Destroy()
 }
 
 
-Player* player = new Player("player", PLAYER_LAYER);
-
 void Game::LoadLevel(int levelNum)
 {
     // Start including new assets to the assetmanager list
@@ -145,11 +151,13 @@ void Game::LoadLevel(int levelNum)
     assetHandler->AddTexture("radar-image", "assets/images/radar.png");
     assetHandler->AddTexture("jungle-tile", "assets/tilemaps/jungle.png");
     assetHandler->AddTexture("heliport", "assets/images/heliport.png");
+    assetHandler->AddFont("charriot-font", "assets/fonts/charriot.ttf", 14);
 
     map = new Map("jungle-tile", 3, 32);
     map->LoadMap("assets/tilemaps/jungle.map", 25, 20);
 
     // Start including entities and also components to them
+    player = new Player("player", PLAYER_LAYER);
     player->AddComponent<TransformComponent>(240, 160, 0, 0, 32, 32, 1);
     player->AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
     player->AddComponent<KeyboardControlComponent>("up", "right", "down", "left", "space");    
@@ -167,8 +175,9 @@ void Game::LoadLevel(int levelNum)
     heliport->AddComponent<TransformComponent>(470, 420, 0, 0, 32, 32, 1);
     heliport->AddComponent<SpriteComponent>("heliport");
     heliport->AddComponent<ColliderComponent>("enemy", 240, 106, 32, 32);
-
-    //std::cout << entities.PrintEntities();
+    
+    Entity* labelLevelName = new Entity("LabelLevelName", UI_LAYER);
+    labelLevelName->AddComponent<LabelComponent>(10, 10, "First Level", "charriot-font", WHITE_COLOR);
 }
 
 
