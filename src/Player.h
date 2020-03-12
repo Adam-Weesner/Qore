@@ -5,13 +5,9 @@
 class Player: public Entity
 {
     public:
-        Player(): Entity()
-        {
-        }
+        Player(): Entity() { }
 
-        Player(std::string name, Layers layer): Entity(name, layer)
-        {
-        }
+        Player(std::string name, Layers layer): Entity(name, layer) { }
 
         void OnCollision(const Entity* other) override
         { 

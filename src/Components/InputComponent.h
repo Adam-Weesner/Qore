@@ -1,6 +1,6 @@
 // Qore Engine written by Adam Weesner @ 2020
-#ifndef KEYBOARDCONTROLCOMPONENT_H
-#define KEYBOARDCONTROLCOMPONENT_H
+#ifndef INPUTCOMPONENT_H
+#define INPUTCOMPONENT_H
 
 #include <SDL2/SDL.h>
 #include "../Game.h"
@@ -8,13 +8,13 @@
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
 
-class KeyboardControlComponent: public Component
+class InputComponent: public Component
 {
     public:
-        KeyboardControlComponent() {}
+        InputComponent() {}
 
 
-        KeyboardControlComponent(std::string upKey,
+        InputComponent(std::string upKey,
                                 std::string rightKey,
                                 std::string downKey,
                                 std::string leftKey,

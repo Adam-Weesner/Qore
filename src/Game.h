@@ -4,9 +4,10 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include "Entity.h"
 #include "Component.h"
 #include "EntityContainer.h"
+#include "Player.h"
+#include "LoadLua.h"
 
 class AssetHandler;
 
@@ -21,7 +22,6 @@ class Game
         void Render();
         void Destroy();
 
-        void LoadLevel(int levelNum);
         bool IsRunning() const;
         void HandleCameraMovement();
 
@@ -29,11 +29,13 @@ class Game
         static SDL_Event event;
         static SDL_Rect camera;
         static AssetHandler* assetHandler;
+        static Player* player;
         float deltaTime;
         
     private:
         bool isRunning;
         Uint32 ticksLastFrame;
         SDL_Window *window;
+        LoadLua* lua;
 };
 #endif

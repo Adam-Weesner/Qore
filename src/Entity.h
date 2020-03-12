@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <iostream>
 #include "Constants.h"
 #include "EntityContainer.h"
 #include "Component.h"
