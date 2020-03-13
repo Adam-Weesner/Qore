@@ -142,6 +142,11 @@ bool Game::IsRunning() const
 }
 
 
+void Game::ExitGame()
+{
+    isRunning = false;
+}
+
 void Game::HandleCameraMovement()
 {
     TransformComponent* playerTransform = player->GetComponent<TransformComponent>();

@@ -23,6 +23,7 @@ class Game
         void Destroy();
 
         bool IsRunning() const;
+        void ExitGame();
         void HandleCameraMovement();
 
         static SDL_Renderer* renderer;
@@ -30,10 +31,11 @@ class Game
         static SDL_Rect camera;
         static AssetHandler* assetHandler;
         static Player* player;
+        
         float deltaTime;
+        bool isRunning;
         
     private:
-        bool isRunning;
         Uint32 ticksLastFrame;
         SDL_Window *window;
         LoadLua* lua;

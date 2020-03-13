@@ -1,3 +1,15 @@
+-- Get current time of day from OS
+math.randomseed(os.time())
+local currentSystemHour = os.date("*t").hour
+local mapTextureAssetID = "jungle-tile-day"
+
+-- Use night-map or day-map texture (10am-10pm)
+if currentSystemHour >= 10 and currentSystemHour < 22 then
+    mapTextureAssetID = "jungle-tile-day"
+else
+    mapTextureAssetID = "jungle-tile-night"
+end
+
 Level0 = 
 {
     assets = 
@@ -6,16 +18,17 @@ Level0 =
         [1] = { type="texture", id = "tank-image", file = "assets/images/tank-big-right.png" },
         [2] = { type="texture", id = "chopper-image", file = "assets/images/chopper-spritesheet.png" },
         [3] = { type="texture", id = "radar-image", file = "assets/images/radar.png" },
-        [4] = { type="texture", id = "jungle-tile", file = "./assets/tilemaps/jungle.png" },
-        [5] = { type="texture", id = "heliport-image", file = "assets/images/heliport.png" },
-        [6] = { type="texture", id = "projectile", file = "assets/images/bullet-enemy.png" },
-        [7] = { type="texture", id = "truck-right-texture", file = "assets/images/truck-right.png" },
-        [8] = { type="font", id = "charriot-font", file = "assets/fonts/charriot.ttf", fontSize = 14}
+        [4] = { type="texture", id = "jungle-tile-day", file = "./assets/tilemaps/jungle.png" },
+        [5] = { type="texture", id = "jungle-tile-night", file = "./assets/tilemaps/jungle-night.png" },
+        [6] = { type="texture", id = "heliport-image", file = "assets/images/heliport.png" },
+        [7] = { type="texture", id = "projectile", file = "assets/images/bullet-enemy.png" },
+        [8] = { type="texture", id = "truck-right-texture", file = "assets/images/truck-right.png" },
+        [9] = { type="font", id = "charriot-font", file = "assets/fonts/charriot.ttf", fontSize = 14}
     },
 
     map = 
     {
-        textureAssetID = "jungle-tile",
+        textureAssetID = mapTextureAssetID,
         file = "assets/tilemaps/jungle.map",
         scale = 3,
         tileSize = 32,
@@ -108,7 +121,7 @@ Level0 =
                 {
                     speed = 70,
                     range = 1000,
-                    angle = 270,
+                    angle = math.random(360),
                     width = 4,
                     height = 4,
                     shouldLoop = true,
