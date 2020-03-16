@@ -1,13 +1,13 @@
 -- Get current time of day from OS
 math.randomseed(os.time())
 local currentSystemHour = os.date("*t").hour
-local mapTextureAssetID = "jungle-tile-day"
+local mapTextureAssetID = "forest-tile-day"
 
 -- Use night-map or day-map texture (10am-10pm)
 if currentSystemHour >= 10 and currentSystemHour < 22 then
-    mapTextureAssetID = "jungle-tile-day"
+    mapTextureAssetID = "forest-tile-day"
 else
-    mapTextureAssetID = "jungle-tile-night"
+    mapTextureAssetID = "forest-tile-night"
 end
 
 Level0 = 
@@ -18,18 +18,19 @@ Level0 =
         [1] = { type="texture", id = "tank-image", file = "assets/images/tank-big-right.png" },
         [2] = { type="texture", id = "chopper-image", file = "assets/images/chopper-spritesheet.png" },
         [3] = { type="texture", id = "radar-image", file = "assets/images/radar.png" },
-        [4] = { type="texture", id = "jungle-tile-day", file = "./assets/tilemaps/jungle.png" },
-        [5] = { type="texture", id = "jungle-tile-night", file = "./assets/tilemaps/jungle-night.png" },
+        [4] = { type="texture", id = "forest-tile-day", file = "./assets/tilemaps/forest.png" },
+        [5] = { type="texture", id = "forest-tile-night", file = "./assets/tilemaps/forest-night.png" },
         [6] = { type="texture", id = "heliport-image", file = "assets/images/heliport.png" },
-        [7] = { type="texture", id = "projectile", file = "assets/images/bullet-enemy.png" },
+        [7] = { type="texture", id = "projectile", file = "assets/images/bullet.png" },
         [8] = { type="texture", id = "truck-right-texture", file = "assets/images/truck-right.png" },
-        [9] = { type="font", id = "charriot-font", file = "assets/fonts/charriot.ttf", fontSize = 14}
+        [9] = { type="sound", id = "helicopter-SFX", file = "assets/sounds/helicopter.wav" },
+        [10] = { type="font", id = "charriot-font", file = "assets/fonts/charriot.ttf", fontSize = 14}
     },
 
     map = 
     {
         textureAssetID = mapTextureAssetID,
-        file = "assets/tilemaps/jungle.map",
+        file = "assets/tilemaps/forest.map",
         scale = 3,
         tileSize = 32,
         mapSizeX = 25,
@@ -50,8 +51,8 @@ Level0 =
                 {
                     position = 
                     {
-                        x = 240,
-                        y = 106
+                        x = 360,
+                        y = 170
                     },
                     velocity = 
                     {
@@ -70,7 +71,7 @@ Level0 =
                     hasDirections = true,
                     fixed = false,
                     frameCount = 2,
-                    animationSpeed = 90,
+                    animationSpeed = 90
                 },
                 collider = { },
                 input = 
@@ -83,6 +84,11 @@ Level0 =
                         left = "a",
                         shoot = "space"
                     }
+                },
+                audio = { 
+                    filePath = "assets/sounds/helicopter.wav",
+                    playOnAwake = true,
+                    isLooping = true
                 }
             }
         },
@@ -98,8 +104,8 @@ Level0 =
                 {
                     position = 
                     {
-                        x = 150,
-                        y = 495
+                        x = 650,
+                        y = 605
                     },
                     velocity = 
                     {
@@ -117,7 +123,7 @@ Level0 =
                     animated = false
                 },
                 collider = { },
-                projectileEmitter = 
+                emitter = 
                 {
                     speed = 70,
                     range = 1000,
@@ -141,8 +147,8 @@ Level0 =
                 {
                     position = 
                     {
-                        x = 250,
-                        y = 495
+                        x = 550,
+                        y = 745
                     },
                     velocity = 
                     {
@@ -173,8 +179,8 @@ Level0 =
                 {
                     position = 
                     {
-                        x = 243,
-                        y = 597
+                        x = 343,
+                        y = 737
                     },
                     velocity = 
                     {
@@ -192,6 +198,67 @@ Level0 =
                     animated = false
                 },
                 collider = { }
+            }
+        },
+
+        -- Truck
+        [4] = {
+            name = "radar",
+            layer = 5,
+            components = 
+            {
+                transform = 
+                {
+                    position = 
+                    {
+                        x = 1800,
+                        y = 15
+                    },
+                    velocity = 
+                    {
+                        x = 0,
+                        y = 0
+                    },
+                    width = 64,
+                    height = 64,
+                    scale = 1,
+                    rotation = 0
+                },
+                sprite = 
+                {
+                    textureAssetID = "radar-image",
+                    animated = true,
+                    hasDirections = false,
+                    fixed = true,
+                    frameCount = 8,
+                    animationSpeed = 150
+                },
+                collider = { }
+            }
+        },
+
+        -- Text
+        [5] = {
+            name = "text",
+            layer = 5,
+            components = 
+            {
+                label = 
+                {
+                    position = 
+                    {
+                        x = 15,
+                        y = 15
+                    },
+                    text = "Welcome to the Qore Engine!",
+                    fontFamily = "charriot-font",
+                    color =
+                    {
+                        r = 255,
+                        g = 255,
+                        b = 255
+                    }
+                }
             }
         }
     }

@@ -11,7 +11,7 @@
 class LabelComponent: public Component
 {
     public:
-        LabelComponent(int x, int y, std::string text, std::string fontFamily, SDL_Color color)
+        LabelComponent(int x, int y, std::string text, std::string fontFamily, SDL_Color color = {255, 255, 255})
         {
             this->position.x = x;
             this->position.y = y;

@@ -9,6 +9,7 @@
 #include "Components/ColliderComponent.h"
 #include "Components/LabelComponent.h"
 #include "Components/EmitterComponent.h"
+#include "Components/AudioComponent.h"
 #include "Player.h"
 
 
@@ -117,6 +118,7 @@ void LoadLua::LoadEntities()
                 Game::player = dynamic_cast<Player*>(newEntity);
             } 
             
+
             // Add transform component
             sol::optional<sol::table> existsTransformComponent = entity["components"]["transform"];
             if (existsTransformComponent != sol::nullopt)
@@ -132,6 +134,7 @@ void LoadLua::LoadEntities()
                     static_cast<int>(entity["components"]["transform"]["scale"])
                 );
             }
+
 
             // Add sprite component
             sol::optional<sol::table> existsSpriteComponent = entity["components"]["sprite"];
@@ -156,6 +159,7 @@ void LoadLua::LoadEntities()
                 }
             }
 
+
             // Add input component
             sol::optional<sol::table> existsInputComponent = entity["components"]["input"];
             if (existsInputComponent != sol::nullopt) 
@@ -172,6 +176,7 @@ void LoadLua::LoadEntities()
                 }
             }
 
+
             // Add collider component
             sol::optional<sol::table> existsColliderComponent = entity["components"]["collider"];
             if (existsColliderComponent != sol::nullopt) 
@@ -179,22 +184,23 @@ void LoadLua::LoadEntities()
                 newEntity->AddComponent<ColliderComponent>();
             }
 
+
             // Add emitter component
-            sol::optional<sol::table> existsProjectileEmitterComponent = entity["components"]["projectileEmitter"];
-            if (existsProjectileEmitterComponent != sol::nullopt) 
+            sol::optional<sol::table> existsEmitterComponent = entity["components"]["emitter"];
+            if (existsEmitterComponent != sol::nullopt) 
             {
                 int parentEntityXPos = entity["components"]["transform"]["position"]["x"];
                 int parentEntityYPos = entity["components"]["transform"]["position"]["y"];
                 int parentEntityWidth = entity["components"]["transform"]["width"];
                 int parentEntityHeight = entity["components"]["transform"]["height"];
-                int projectileWidth = entity["components"]["projectileEmitter"]["width"];
-                int projectileHeight = entity["components"]["projectileEmitter"]["height"];
-                int projectileSpeed = entity["components"]["projectileEmitter"]["speed"];
-                int projectileRange = entity["components"]["projectileEmitter"]["range"];
-                int projectileAngle = entity["components"]["projectileEmitter"]["angle"];
-                bool projectileShouldLoop = entity["components"]["projectileEmitter"]["shouldLoop"];
+                int projectileWidth = entity["components"]["emitter"]["width"];
+                int projectileHeight = entity["components"]["emitter"]["height"];
+                int projectileSpeed = entity["components"]["emitter"]["speed"];
+                int projectileRange = entity["components"]["emitter"]["range"];
+                int projectileAngle = entity["components"]["emitter"]["angle"];
+                bool projectileShouldLoop = entity["components"]["emitter"]["shouldLoop"];
 
-                std::string textureAssetID = entity["components"]["projectileEmitter"]["textureAssetID"];
+                std::string textureAssetID = entity["components"]["emitter"]["textureAssetID"];
                 Entity* projectile = new Entity("projectile", PROJECTILE_LAYER);
 
                 projectile->AddComponent<TransformComponent>
@@ -220,6 +226,37 @@ void LoadLua::LoadEntities()
 
                 projectile->AddComponent<ColliderComponent>( );
             }
+
+
+            // Add audio component
+            sol::optional<sol::table> existsAudioComponent = entity["components"]["audio"];
+            if (existsAudioComponent != sol::nullopt) 
+            {
+                std::string filePath = entity["components"]["audio"]["filePath"];
+                bool playOnAwake = entity["components"]["audio"]["playOnAwake"];
+                bool isLooping = entity["components"]["audio"]["isLooping"];
+
+                newEntity->AddComponent<AudioComponent>(filePath, playOnAwake, isLooping);
+            }
+
+
+            // Add label component
+            sol::optional<sol::table> existsLabelComponent = entity["components"]["label"];
+            if (existsLabelComponent != sol::nullopt) 
+            {
+                int x = entity["components"]["label"]["position"]["x"];
+                int y = entity["components"]["label"]["position"]["y"];
+                std::string text = entity["components"]["label"]["text"];
+                std::string fontFamily = entity["components"]["label"]["fontFamily"];
+                int r = entity["components"]["label"]["color"]["r"];
+                int g = entity["components"]["label"]["color"]["g"];
+                int b = entity["components"]["label"]["color"]["b"];
+                SDL_Color color = {r, g, b};
+
+                newEntity->AddComponent<LabelComponent>(x, y, text, fontFamily, color);
+            }
+
+
         }
     }
 }
