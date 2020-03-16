@@ -1,6 +1,5 @@
 // Qore Engine written by Adam Weesner @ 2020
 #include "EntityContainer.h"
-#include "Collision.h"
 #include "Components/ColliderComponent.h"
 
 void EntityContainer::ClearData() 
